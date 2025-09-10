@@ -11,4 +11,9 @@ export const useRecordStore = defineStore('record', {
 			),
 		};
 	},
+	getters: {
+		hasRecords: (state) => {
+			return !!Object.keys(state.records || {}).length;
+		},
+	},
 });

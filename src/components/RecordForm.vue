@@ -9,6 +9,7 @@
         <InputText
             name="tags"
             fluid
+            :maxlength="50"
             @blur="submitForm"
         />
         <Select
@@ -25,6 +26,7 @@
             :class="{
                 'col-span-2': $form.type?.value === 'ldap'
             }"
+            :maxlength="100"
             autocomplete="off"
             @blur="submitForm"
         />
@@ -37,7 +39,15 @@
             :input-props="{
                 autocomplete: 'new-password'
             }"
+            :maxlength="100"
             @blur="submitForm"
+        />
+
+        <Button
+            icon="pi pi-trash"
+            severity="danger"
+            aria-label="Удалить запись"
+            @click="onDeleteClick"
         />
 
         <!-- hacky way to submit the form because the ui lib doesnt provide an adequate lmao api -->
@@ -90,12 +100,11 @@ const record = computed({
 
 const resolver = ref(zodResolver(
     z.object({
-        tags: z.string().min(1),
+        tags: z.string().max(50).optional(),
         type: z.string().optional(),
-        login: z.string().min(1, "login is required"),
-        password: z.string().optional()
+        login: z.string().min(1).max(100),
+        password: z.string().max(100).optional()
     }).superRefine((data, ctx) => {
-        console.log({ data });
 
         if (data.type === 'local' && !data.password) {
             ctx.addIssue({
@@ -130,7 +139,6 @@ function onFormSubmit(args: {
         password: string | null;
     }
 }) {
-    console.log({ args });
 
     if (args.valid) {
         record.value = {
@@ -138,6 +146,10 @@ function onFormSubmit(args: {
             password: args.values.type === 'ldap' ? null : args.values.password
         }
     }
+}
+
+function onDeleteClick() {
+    delete recordStore.records[props.recordId]
 }
 </script>
 
