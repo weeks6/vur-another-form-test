@@ -3,3 +3,4 @@ test task with some forms
 
 <img width="1919" height="927" alt="image" src="https://github.com/user-attachments/assets/f9bd5534-521a-4587-ba9f-d4015a04858b" />
 
+<img width="1566" height="869" alt="image" src="https://github.com/user-attachments/assets/3abd3b51-c0bd-4e1f-8ccb-13e67309b0eb" />
